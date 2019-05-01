@@ -4,26 +4,27 @@ const config = require('config');
 
 const HTTP_PORT = config.get('app.port');
 
+// set global promise to bluebird
 global.Promise = require('bluebird');
 
-process.on('uncaughtException', (error) => {
+// handle uncaught exceptions
+process.on('uncaughtException', error => {
     console.log('some error occured', error.message);
 });
 
-
 /**
  * normalize port to number, string or false value
- * @param {*} val 
+ * @param {*} val
  */
 function normalizePort(val) {
-    const port = parseInt(val);
-    if (isNaN(port)) {
+    const port = parseInt(val, 10);
+    if (Number.isNaN(port)) {
         // named pipe
         return val;
     }
-    if (port >=0 ) {
+    if (port >= 0) {
         // port number
-        return port
+        return port;
     }
     return false;
 }
@@ -41,11 +42,11 @@ server.listen(port);
 server.on('listening', () => {
     // get address info (address, family,port )
     const address = server.address();
-    const bind = typeof address === 'string'?`pipe ${address}`: `port ${address.port}`;
+    const bind = typeof address === 'string' ? `pipe ${address}` : `port ${address.port}`;
     console.log(`Listening on ${bind}`);
 });
 
-server.on('error', (error) => {
-    console.log(`error while creating server`, error.message);
+server.on('error', error => {
+    console.log('error while creating server', error.message);
     process.exit(1);
 });
