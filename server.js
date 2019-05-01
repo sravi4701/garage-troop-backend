@@ -4,6 +4,13 @@ const config = require('config');
 
 const HTTP_PORT = config.get('app.port');
 
+global.Promise = require('bluebird');
+
+process.on('uncaughtException', (error) => {
+    console.log('some error occured', error.message);
+});
+
+
 /**
  * normalize port to number, string or false value
  * @param {*} val 
