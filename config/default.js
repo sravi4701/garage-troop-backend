@@ -1,6 +1,11 @@
+require('dotenv').config();
+
 const config = {
     app: {
-        port: 5000
+        PORT: process.env.PORT
+    },
+    db: {
+        DB_URI: process.env.DB_URI
     }
 };
 

@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+require('./modules/db'); // setup mongodb
 
 const app = express();
 

@@ -2,7 +2,7 @@ const http = require('http');
 const app = require('./app');
 const config = require('config');
 
-const HTTP_PORT = config.get('app.port');
+const HTTP_PORT = config.get('app.PORT');
 
 // set global promise to bluebird
 global.Promise = require('bluebird');
