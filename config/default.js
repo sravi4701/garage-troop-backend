@@ -5,7 +5,8 @@ const config = {
         PORT: process.env.PORT
     },
     db: {
-        DB_URI: process.env.DB_URI
+        DB_URI: process.env.DB_URI,
+        DEBUG: true
     }
 };
 

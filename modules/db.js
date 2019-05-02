@@ -5,6 +5,8 @@ const DB_URI = config.get('db.DB_URI');
 
 mongoose.Promise = global.Promise;
 
+mongoose.set('debug', config.get('db.DEBUG'));
+
 const options = {
     useCreateIndex: true, // default false
     autoIndex: false, // default true
