@@ -6,7 +6,8 @@ require('dotenv').config();
 
 const config = {
     app: {
-        PORT: process.env.PORT
+        PORT: process.env.PORT,
+        JWT_SECRET: process.env.JWT_SECRET
     },
     db: {
         DB_URI: process.env.DB_URI,

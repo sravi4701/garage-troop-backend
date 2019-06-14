@@ -9,15 +9,18 @@
   "author": "Ravi Shankar",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.6",
     "bluebird": "^3.5.4",
     "config": "^3.1.0",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "i": "^0.3.6",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.5",
     "morgan": "^1.9.1",
     "npm": "^6.9.0",
     "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4"
   },

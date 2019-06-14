@@ -24,7 +24,8 @@ module.exports = {
     ],
     "import/order": 0,
     "indent": ["error", 4],
-    "no-console": 0,  
+    "no-console": 0,
+    "no-underscore-dangle": 0,  
     "no-debugger": [
       "error"
     ],
