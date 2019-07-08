@@ -15,4 +15,4 @@ const userOtpSchema = new Schema({
     }
 });
 
-module.exports = conn.model('users', userOtpSchema);
+module.exports = conn.model('users-otp', userOtpSchema);
