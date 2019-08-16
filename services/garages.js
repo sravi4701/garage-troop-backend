@@ -1,7 +1,15 @@
 const _ = require('lodash');
 const GarageModel = require('../db_models/garages');
+const appContants = require('../constants/app');
 
 class Garages {
+
+    standardSort() {
+        return {
+            'createdAt': -1
+        };
+    }
+
     async addGarage(data) {
         try {
             const newGarage = new GarageModel(data);
@@ -48,6 +56,25 @@ class Garages {
         try {
             const garageData = await GarageModel.findOne(query);
             return garageData;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async getAllGarages(query = {}, options = {}) {
+        const limit = options.limit || appContants.STANDARD_LIST_LIMIT;
+        const offset = options.skip || options.offset || appContants.DEFAULT_SKIP;
+        const sort = options.sort || this.standardSort();
+        try {
+            const garages = await GarageModel.find(query).skip(offset).limit(limit).sort(sort);
+            return {
+                data: garages,
+                meta: {
+                    limit,
+                    offset: offset + garages.length,
+                    has_next: garages.length !== 0
+                }
+            };
         } catch (error) {
             throw error;
         }
