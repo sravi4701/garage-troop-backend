@@ -14,7 +14,7 @@ AWS.config.update({
 
 class SNS {
     async sendMessage(mobileNo, message) {
-        if (Utils.isProd()) {
+        if (!Utils.isProd()) {
             return Promise.resolve();
         }
         const sns = new AWS.SNS();

@@ -26,9 +26,8 @@ class AbstractEnum {
             get(target, key) {
                 if (key in target) {
                     return target[key];
-                } 
-                    throw new Error(`Attempt to access unexisting key : ${key}`);
-                
+                }
+                throw new Error(`Attempt to access unexisting key : ${key}`);
             }
         });
     }

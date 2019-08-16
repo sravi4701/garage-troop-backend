@@ -5,6 +5,7 @@ const userOtpService = require('../services/user-otp');
 const Utils = require('../utils');
 const snsService = require('../services/aws/sns');
 const STRINGS = require('../constants/strings');
+const passport = require('passport');
 
 
 class Auth {
@@ -31,10 +32,16 @@ class Auth {
         }
     }
 
-    handleLogin(req, res, next) {
-        res.send({ 'data': req.user });
+    handleLogin(user, req, res, next) {
+        const token = Utils.signJwt({ id: user._id.toString() });
+        res.send(Utils.getStandardResponse({ token }));
     }
 
+    /**
+     * This method send otp to new or existing users
+     * if user is new then it creates a new user.
+     * It stores the otp in the otp-model for verification.
+    */
     async otpLogin(req, res, next) {
         const { phone } = req.body;
         if (!Utils.isValidPhoneNo(phone)) {
@@ -58,6 +65,30 @@ class Auth {
             console.log('error', error);
             return res.status(400).send(Utils.getStandardErrorResponse(error.message));
         }
+    }
+
+    handleOtpLogin(req, res, next) {
+        passport.authenticate('otp', { session: false }, (err, user, info) => {
+            if (err) {
+                return res.status(403).send(Utils.getStandardErrorResponse(err.message));
+            }
+            if (!user) {
+                return res.status(403).send(Utils.getStandardErrorResponse('User not found'));
+            }
+            return this.handleLogin(user, req, res, next);
+        })(req, res, next);
+    }
+
+    handleLocalLogin(req, res, next) {
+        passport.authenticate('local', { session: false }, (err, user, info) => {
+            if (err) {
+                return res.status(403).send(Utils.getStandardErrorResponse(err.message));
+            }
+            if (!user) {
+                return res.status(403).send(Utils.getStandardErrorResponse('User not found'));
+            }
+            return this.handleLogin(user, req, res, next);
+        })(req, res, next);
     }
 }
 

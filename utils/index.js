@@ -1,7 +1,32 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const mongoose = require('mongoose');
 
 class Utils {
+    static schemaTypes() {
+        return {
+            MANDATORY_STRING: {
+                type: String,
+                required: true
+            },
+            OPTIONAL_STRING: {
+                type: String
+            },
+            MANDATORY_NUMBER: {
+                type: Number,
+                required: true
+            },
+            OPTIONAL_NUMBER: {
+                type: Number
+            },
+            POINT_COORDINATES: {
+                type: { type: String, required: false, default: 'Point' },
+                coordinates: [Number] // Long, Lat
+            },
+            MANDATORY_OBJECT_IDS: { type: [mongoose.Schema.Types.ObjectId], required: true }
+        };
+    }
+
     static validateEmail(email) {
         const re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i; // eslint-disable-line no-useless-escape
         return re.test(email);

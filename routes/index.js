@@ -5,6 +5,7 @@ function initiateRoutes(app) {
     });
 
     app.use('/auth', require('./auth'));
+    app.use('/garages', require('./garages'));
 }
 
 module.exports = initiateRoutes;

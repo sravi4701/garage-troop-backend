@@ -1,6 +1,8 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const UserModel = require('../db_models/users');
+const userService = require('../services/users');
+const userOtpService = require('../services/user-otp');
+const Utils = require('../utils');
 const bcrypt = require('bcrypt');
 
 passport.use('local', new LocalStrategy({
@@ -9,7 +11,7 @@ passport.use('local', new LocalStrategy({
 }, async (email, password, done) => {
     // get the user
     try {
-        const user = await UserModel.findOne({ email });
+        const user = await userService.getOne({ email });
         if (!user) {
             return done(new Error('User does not exists'));
         }
@@ -22,3 +24,32 @@ passport.use('local', new LocalStrategy({
         return (done(error));
     }
 }));
+
+const otpStrategy = new LocalStrategy({
+    usernameField: 'user_id',
+    passwordField: 'otp'
+}, async (userId, otp, done) => {
+    try {
+        // verify the user.
+        const user = await userService.getOne({ _id: userId });
+        if (!user) {
+            return done(new Error('User does not exists'));
+        }
+
+        // no otp for staging or local development
+        if (!Utils.isProd() && otp === '0000') {
+            return done(null, user);
+        }
+
+        // check if otp is valid
+        const userOtp = await userOtpService.getOne({ user_id: userId, otp });
+        if (!userOtp) {
+            return done(new Error('Invalid OTP'));
+        }
+        return done(null, user);
+    } catch (error) {
+        return done(error);
+    }
+});
+
+passport.use('otp', otpStrategy);
