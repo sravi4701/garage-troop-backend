@@ -1,9 +1,9 @@
 const garageService = require('../services/garages');
 
 const StandardResponse = require('../utils').getStandardResponse;
+const _ = require('lodash');
 
 class Garages {
-
     extractStandardOptions(req) {
         const options = {};
         const query = req.query;
@@ -63,7 +63,7 @@ class Garages {
     async handleGetAllGarages(req, res, next) {
         try {
             const { sort, limit, skip } = this.extractStandardOptions(req);
-            const resData = await garageService.getAllGarages({}, { sort, limit, skip });
+            const resData = await garageService.getAllGarages(_.defaults({}, req.query, req.params), { sort, limit, skip });
             return res.send(StandardResponse(resData.data, resData.meta));
         } catch (error) {
             return res.status(400).send({ error: true, message: error.message });

@@ -34,6 +34,9 @@ const GarageSchema = new Schema({
     established_since: SchemaTypes.OPTIONAL_NUMBER // year
 });
 
+GarageSchema.index({ name: 1 });
+GarageSchema.index({ location: '2dsphere' });
+
 const GarageModel = conn.model('garages', GarageSchema);
 
 module.exports = GarageModel;

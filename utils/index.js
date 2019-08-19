@@ -21,10 +21,19 @@ class Utils {
             },
             POINT_COORDINATES: {
                 type: { type: String, required: false, default: 'Point' },
-                coordinates: [Number] // Long, Lat
+                coordinates: { type: [Number], validate: [Utils.validateLatLog, 'Invalid coordinates'] } // Long, Lat
             },
             MANDATORY_OBJECT_IDS: { type: [mongoose.Schema.Types.ObjectId], required: true }
         };
+    }
+
+    static validateLatLog(coordinates) {
+        const long = coordinates[0];
+        const lat = coordinates[1];
+        if ((long >= -180 && long <= 180) && (lat >= -90 && lat <= 90)) {
+            return true;
+        }
+        return false;
     }
 
     static validateEmail(email) {

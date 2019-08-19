@@ -3,7 +3,6 @@ const GarageModel = require('../db_models/garages');
 const appContants = require('../constants/app');
 
 class Garages {
-
     standardSort() {
         return {
             'createdAt': -1
@@ -36,7 +35,6 @@ class Garages {
         return results;
     }
 
-    // FIXME: Not working
     async addMechanics(id, data) {
         try {
             const garageData = await GarageModel.findOne({ _id: id });
@@ -66,6 +64,20 @@ class Garages {
         const offset = options.skip || options.offset || appContants.DEFAULT_SKIP;
         const sort = options.sort || this.standardSort();
         try {
+            if (query.lat && query.long) {
+                const lat = query.lat;
+                const long = query.long;
+                delete query.lat;
+                delete query.long;
+                query.location = {
+                    $near: {
+                        $geometry: {
+                            type: 'Point',
+                            coordinates: [long, lat]
+                        }
+                    }
+                };
+            }
             const garages = await GarageModel.find(query).skip(offset).limit(limit).sort(sort);
             return {
                 data: garages,
