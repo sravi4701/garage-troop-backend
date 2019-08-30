@@ -64,16 +64,16 @@ class Garages {
         const offset = options.skip || options.offset || appContants.DEFAULT_SKIP;
         const sort = options.sort || this.standardSort();
         try {
-            if (query.lat && query.long) {
+            if (query.lat && query.lng) {
                 const lat = query.lat;
-                const long = query.long;
+                const lng = query.lng;
                 delete query.lat;
-                delete query.long;
+                delete query.lng;
                 query.location = {
                     $near: {
                         $geometry: {
                             type: 'Point',
-                            coordinates: [long, lat]
+                            coordinates: [lng, lat]
                         }
                     }
                 };
