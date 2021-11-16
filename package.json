@@ -9,7 +9,7 @@
   "author": "Ravi Shankar",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.488.0",
+    "aws-sdk": "^2.814.0",
     "bcrypt": "^3.0.6",
     "bluebird": "^3.5.4",
     "config": "^3.1.0",
